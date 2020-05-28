@@ -25,7 +25,7 @@ This repository outlines the steps in enabling [Steeltoe](https://steeltoe.io/) 
 1. Navigate to the src/Wavefront-Proxy folder and inspect the manifest.yml file.
 
 2. Update the following environment variables in the manifest.yml file according to your Tanzu Observability deployment.
-   1. WAVEFRONT_URL = https://***{YOUR_-_WAVEFRONT_INSTANCE}***.wavefront.com/api/
+   1. WAVEFRONT_URL = https://***{YOUR_WAVEFRONT_INSTANCE}***.wavefront.com/api/
    2. WAVEFRONT_TOKEN = ***YOUR_TOKEN***
 3. Push your Wavefront proxy:
 
@@ -40,7 +40,11 @@ This repository outlines the steps in enabling [Steeltoe](https://steeltoe.io/) 
       cf app wavefront-proxy --guid
       ```
 
-   2. cf curl /v2/apps/{***YOUR_APP_GUID***} -X PUT -d '{\"ports\": [2878, 9811]}'
+   2. Use the app guid retrieved in the prior step to configure the ports for the Wavefront proxy.
+
+      ```powershell
+      cf curl /v2/apps/{***YOUR_APP_GUID***} -X PUT -d '{\"ports\": [2878, 9811]}'
+      ```
 
 ## Steeltoe Application
 
@@ -202,7 +206,7 @@ In order to build the application we will utilize the Steeltoe Initializer to bo
    1. You are now ready to visit your Tanzu Observability instance and observe application metrics and traces.
       1. Navigate to https://{YOUR_WAVEFRONT_ENDPOINT}.wavefront.com/
       2. From the Menu Select Applications > Application Status
-      3. You should see a Zipkin Application in the list.  Click into the Application and you should see an application with your Spring application name (see [Steeltoe Application 4.4.1](#steeltoe-application)
+      3. You should see a Zipkin Application in the list.  Click into the Application and you should see an application with your Spring application name (see [Steeltoe Application 4.4.1](#steeltoe-application))
       4. Drill in to observe your application metrics and traces.
 
 ## Future Items for Exploration
