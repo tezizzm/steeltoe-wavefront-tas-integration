@@ -4,4 +4,5 @@ applications:
   - dotnet_core_buildpack
   routes:
   - route: observability.apps.internal
+  - route: observability.{YOUR_PUBLIC_DOMAIN}
   stack: cflinuxfs3

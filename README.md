@@ -50,7 +50,7 @@ This repository outlines the steps in enabling [Steeltoe](https://steeltoe.io/) 
 
 In order to build the application we will utilize the Steeltoe Initializer to bootstrap our application.
 
-1. Navigate to [start.steeltoe.io](start.steeltoe.io) and configure the application as follows:
+1. Navigate to [start.steeltoe.io](https://start.steeltoe.io) and configure the application as follows:
 
    1. Steeltoe Version: Latest Stable (currently 2.4.3)
    2. Project Metadata:
@@ -96,7 +96,7 @@ In order to build the application we will utilize the Steeltoe Initializer to bo
       app.UseTracingExporter();
       ```
 
-   4. Take note of the following application configuration sections found in the appsettings.json file:
+   4. Copy or overwrite the local appsettings.json file with the [src/Observability/appsettings.json](src/Observability/appsettings.json) file.  Take note of the following application configuration sections found in the appsettings.json file:
       1. The Spring application name
 
          ```javascript
@@ -122,24 +122,33 @@ In order to build the application we will utilize the Steeltoe Initializer to bo
          }
          ```
 
-   5. Now deploy your application with the following command:
+   5. Copy the [src/Observability/manifest.yml](src/Observability/manifest.yml) file to the application directory.
 
-   ```powershell
-   cf push
-   ```
+   6. Edit the Routes collection in the manifest.yml file to match your internal (C2C) and public facing domains respectively
+
+   7. Deploy your application with the following command:
+
+      ```powershell
+      cf push
+      ```
 
 ## Telegraf Deployment
 
 *Note: Telegraf is available for a number of platforms and is distributed several different ways.  In this solution a choice was made to run a Linux (Debian/Ubuntu) version of Telegraf to support C2C networking.  Docker images of Telegraf are available on [Docker Hub](https://hub.docker.com/_/telegraf).  A choice was made to deploy a Telegraf executable over a docker based image to avoid complications of NFS volume mounts*
 
-1. From your Linux VM, download the latest telegraph release [(currently 1.14.3)](https://dl.influxdata.com/telegraf/releases/telegraf-1.14.3_linux_amd64.tar.gz).
+1. From your Linux VM, download the latest telegraph release [(currently 1.14.3)](https://dl.influxdata.com/telegraf/releases/telegraf-1.14.3-static_linux_amd64.tar.gz).
+
+   ```bash
+   wget https://dl.influxdata.com/telegraf/releases/telegraf-1.14.3-static_linux_amd64.tar.gz
+   ```
+
 2. Unpack Telegraf, for example:
 
    ```bash
-   tar -xzf telegraf-1.14.3_linux_amd64.tar.gz
+   tar -xzf telegraf-1.14.3-static_linux_amd64.tar.gz
    ```
 
-3. Navigate to the src/Telegraf folder and take note of the telegraf.conf file.  It has been pre-configured to output metrics to the Wavefront proxy and scrape the demo application's Prometheus endpoint:
+3. Navigate to the [src/Telegraf](src/Telegraf/) folder and take note of the telegraf.conf file.  It has been pre-configured to output metrics to the Wavefront proxy and scrape the demo application's Prometheus endpoint:
 
    ```conf
    [agent]
@@ -164,9 +173,13 @@ In order to build the application we will utilize the Steeltoe Initializer to bo
 
 4. Overwrite the telegraf.conf file located in the directory where you unpacked the Telegraf executable with the file found in this repo at src/Telegraf.conf.
 
-5. Copy the manifest.yml file from src/Telegraf to the directory where you unpacked the Telegraf executable.
+5. Copy the [src/Telegraf/manifest.yml](src/Telegraf/manifest.yml) file to the directory where you unpacked the Telegraf executable.
 
 6. Deploy your application with the following command:  Note that we will not start the application on deployment.  This is so we can define [C2C Network Policy].
+
+   ```bash
+      cf push --no-start
+   ```
 
 ## C2C Network Policy
 
@@ -206,8 +219,10 @@ In order to build the application we will utilize the Steeltoe Initializer to bo
    1. You are now ready to visit your Tanzu Observability instance and observe application metrics and traces.
       1. Navigate to https://{YOUR_WAVEFRONT_ENDPOINT}.wavefront.com/
       2. From the Menu Select Applications > Application Status
-      3. You should see a Zipkin Application in the list.  Click into the Application and you should see an application with your Spring application name (see [Steeltoe Application 4.4.1](#steeltoe-application))
+      3. You should see a Zipkin Application in the list.  Click into the Application and you should see an application with your Spring application name (Observability).
       4. Drill in to observe your application metrics and traces.
+
+![start.steeltoe.io](images/wavefront-ui.png)
 
 ## Future Items for Exploration
 

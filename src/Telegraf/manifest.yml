@@ -4,3 +4,4 @@ applications:
   - binary_buildpack
   command: "./telegraf --config ./telegraf.conf"
   stack: cflinuxfs3
+  health-check-type: process
