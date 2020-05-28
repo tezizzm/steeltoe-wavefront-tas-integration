@@ -1,0 +1,6 @@
+applications:
+- name: telegraf
+  buildpacks:
+  - binary_buildpack
+  command: "./telegraf --config ./telegraf.conf"
+  stack: cflinuxfs3

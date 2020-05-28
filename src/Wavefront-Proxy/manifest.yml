@@ -1,0 +1,11 @@
+applications:
+- name: wavefront-proxy
+  health-check-type: process
+  docker:
+    image: wavefronthq/proxy:latest
+  routes:
+  - route: wavefront-proxy.apps.internal
+  env:
+    WAVEFRONT_URL: https://{YOUR_WAVEFRONT_INSTANCE}.wavefront.com/
+    WAVEFRONT_TOKEN: {YOUR_TOKEN}
+    WAVEFRONT_PROXY_ARGS: --traceZipkinListenerPorts 9411

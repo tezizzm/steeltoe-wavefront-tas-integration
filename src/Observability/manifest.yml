@@ -1,0 +1,7 @@
+applications:
+- name: observability
+  buildpacks:
+  - dotnet_core_buildpack
+  routes:
+  - route: observability.apps.internal
+  stack: cflinuxfs3
