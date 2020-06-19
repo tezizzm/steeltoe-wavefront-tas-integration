@@ -27,13 +27,20 @@ This repository outlines the steps in enabling [Steeltoe](https://steeltoe.io/) 
 2. Update the following environment variables in the manifest.yml file according to your Tanzu Observability deployment.
    1. WAVEFRONT_URL = https://***{YOUR_WAVEFRONT_INSTANCE}***.wavefront.com/api/
    2. WAVEFRONT_TOKEN = ***YOUR_TOKEN***
-3. Push your Wavefront proxy:
+
+3. By default, the Wavefront Proxy will send Zipkin data to Wavefront with an application name of "Zipkin" and a service name the matches the `spring.application.name` (see below for configuring `spring.application.name`). If you want to change from the default application name to something more descriptive, you can specify an application name in the proxy configuration as follows:
+
+   ```
+   WAVEFRONT_PROXY_ARGS: --traceZipkinListenerPorts 9411 --traceZipkinApplicationName MyApp
+   ```
+
+4. Push your Wavefront proxy:
 
    ```powershell
    cf push
    ```
 
-4. Configure the Wavefront Proxy to listen on multiple ports:
+5. Configure the Wavefront Proxy to listen on multiple ports:
    1. Retrieve the application guid:
 
       ```powershell
