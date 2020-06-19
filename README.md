@@ -168,7 +168,7 @@ In order to build the application we will utilize the Steeltoe Initializer to bo
    #                      INPUTS                     #
    ###################################################
    [[inputs.prometheus]]
-     urls = ["http://observability.apps.internal/prometheus"]
+     urls = ["http://observability.apps.internal:8080/prometheus"]
    ```
 
 4. Overwrite the telegraf.conf file located in the directory where you unpacked the Telegraf executable with the file found in this repo at src/Telegraf.conf.
@@ -199,7 +199,7 @@ In order to build the application we will utilize the Steeltoe Initializer to bo
    3. Telegraf to Observability application on TCP port 80:
 
       ```powershell
-      cf add-network-policy telegraf --destination-app observability --protocol tcp --port 80
+      cf add-network-policy telegraf --destination-app observability --protocol tcp --port 8080
       ```
 
    4. Observability app to Wavefront proxy on TCP port 9411:
