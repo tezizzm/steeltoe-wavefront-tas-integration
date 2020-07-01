@@ -21,13 +21,13 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
-   # projects: 'src\Observability\Observability.csproj'
+    projects: 'src\Observability\Observability.csproj'
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: './src/Observability/Observability.csproj'
+    projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
   displayName: 'dotnet build $(buildConfiguration)'
 
