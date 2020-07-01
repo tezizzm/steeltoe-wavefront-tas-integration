@@ -10,8 +10,28 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: echo Starting Build....
+  displayName: 'Start Build'
+
+- script: echo Restoring Packages....
+  displayName: 'Restoring packages'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: '''src\Observability\Observability.csproj'''
+
+- script: echo Starting Publish....
+  displayName: 'Publishing artifacts'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '''src\Observability\Observability.csproj'''
+    arguments: '-o .\publish'
+    zipAfterPublish: false
+    modifyOutputPath: false
+    feedsToUse: 'select'
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
