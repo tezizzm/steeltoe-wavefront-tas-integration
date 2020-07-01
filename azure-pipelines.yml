@@ -7,7 +7,10 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-18.04'
+
+variables:
+  buildConfiguration: 'Release'
 
 steps:
 - script: echo Starting Build....
@@ -19,6 +22,13 @@ steps:
   inputs:
     command: 'restore'
     projects: '''src\Observability\Observability.csproj'''
+    feedsToUse: 'select'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    arguments: '--configuration $(buildConfiguration)'
+  displayName: 'dotnet build $(buildConfiguration)'
 
 - script: echo Starting Publish....
   displayName: 'Publishing artifacts'
