@@ -35,7 +35,7 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: false
-    projects: src\Observability\Observability.csproj'
+    projects: '**/*.csproj'
     arguments: '-o .\publish'
     zipAfterPublish: false
     modifyOutputPath: false
