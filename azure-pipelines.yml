@@ -13,17 +13,6 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: echo Starting Build....
-  displayName: 'Start Build'
-
-- script: echo Restoring Packages....
-  displayName: 'Restoring packages'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'restore'
-    projects: 'src\Observability\Observability.csproj'
-    feedsToUse: 'select'
-
 - task: UseDotNet@2
   inputs:
     version: '3.1.x'
@@ -31,13 +20,16 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
+    command: 'restore'
+    projects: 'src\Observability\Observability.csproj'
+    feedsToUse: 'select'
+
+- task: DotNetCoreCLI@2
+  inputs:
     command: 'build'
     projects: './src/Observability/Observability.csproj'
     arguments: '--configuration $(buildConfiguration)'
   displayName: 'dotnet build $(buildConfiguration)'
-
-- script: echo Starting Publish....
-  displayName: 'Publishing artifacts'
 
 - task: DotNetCoreCLI@2
   inputs:
@@ -48,8 +40,3 @@ steps:
     zipAfterPublish: false
     modifyOutputPath: false
     feedsToUse: 'select'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
