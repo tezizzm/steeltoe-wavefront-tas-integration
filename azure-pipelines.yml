@@ -24,6 +24,11 @@ steps:
     projects: 'src\Observability\Observability.csproj'
     feedsToUse: 'select'
 
+- task: UseDotNet@2
+  inputs:
+    version: '3.1.x'
+    packageType: sdk
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
