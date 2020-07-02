@@ -27,13 +27,20 @@ This repository outlines the steps in enabling [Steeltoe](https://steeltoe.io/) 
 2. Update the following environment variables in the manifest.yml file according to your Tanzu Observability deployment.
    1. WAVEFRONT_URL = https://***{YOUR_WAVEFRONT_INSTANCE}***.wavefront.com/api/
    2. WAVEFRONT_TOKEN = ***YOUR_TOKEN***
-3. Push your Wavefront proxy:
+
+3. By default, the Wavefront Proxy will send Zipkin data to Wavefront with an application name of "Zipkin" and a service name the matches the `spring.application.name` (see below for configuring `spring.application.name`). If you want to change from the default application name to something more descriptive, you can specify an application name in the proxy configuration as follows:
+
+   ```
+   WAVEFRONT_PROXY_ARGS: --traceZipkinListenerPorts 9411 --traceZipkinApplicationName MyApp
+   ```
+
+4. Push your Wavefront proxy:
 
    ```powershell
    cf push
    ```
 
-4. Configure the Wavefront Proxy to listen on multiple ports:
+5. Configure the Wavefront Proxy to listen on multiple ports:
    1. Retrieve the application guid:
 
       ```powershell
@@ -43,7 +50,7 @@ This repository outlines the steps in enabling [Steeltoe](https://steeltoe.io/) 
    2. Use the app guid retrieved in the prior step to configure the ports for the Wavefront proxy.
 
       ```powershell
-      cf curl /v2/apps/{***YOUR_APP_GUID***} -X PUT -d '{\"ports\": [2878, 9411]}'
+      cf curl /v2/apps/{***YOUR_APP_GUID***} -X PUT -d '{"ports": [2878, 9411]}'
       ```
 
 ## Steeltoe Application
@@ -168,7 +175,7 @@ In order to build the application we will utilize the Steeltoe Initializer to bo
    #                      INPUTS                     #
    ###################################################
    [[inputs.prometheus]]
-     urls = ["http://observability.apps.internal/prometheus"]
+     urls = ["http://observability.apps.internal:8080/prometheus"]
    ```
 
 4. Overwrite the telegraf.conf file located in the directory where you unpacked the Telegraf executable with the file found in this repo at src/Telegraf.conf.
@@ -199,7 +206,7 @@ In order to build the application we will utilize the Steeltoe Initializer to bo
    3. Telegraf to Observability application on TCP port 80:
 
       ```powershell
-      cf add-network-policy telegraf --destination-app observability --protocol tcp --port 80
+      cf add-network-policy telegraf --destination-app observability --protocol tcp --port 8080
       ```
 
    4. Observability app to Wavefront proxy on TCP port 9411:
