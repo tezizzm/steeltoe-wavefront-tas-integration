@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>wavefront_sdk</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Steeltoe.CloudFoundry.ConnectorBase" Version="2.5.2" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryCore" Version="3.0.2" />
+    <PackageReference Include="Wavefront.AspNetCore.SDK.CSharp" Version="1.4.0" />
+  </ItemGroup>
+
+</Project>

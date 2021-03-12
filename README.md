@@ -18,8 +18,6 @@ This repository outlines the steps in enabling [Steeltoe](https://steeltoe.io/) 
 
    *Note: In this solution all of the applications are deployed to the internal domain of apps.internal.  If your internal domain is different please adjust the routes accordingly*
 
-3. A Linux VM with the [CF CLI](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html#-linux-installation) installed.  The prerequisite relates to the configuration choice to use C2C networking.  See the [Telegraf Deployment](#telegraf-deployment) section for more details.
-
 ## Wavefront Proxy Deployment
 
 1. Navigate to the src/Wavefront-Proxy folder and inspect the manifest.yml file.
@@ -136,7 +134,7 @@ In order to build the application we will utilize the Steeltoe Initializer to bo
 
 *Note: Telegraf is available for a number of platforms and is distributed several different ways.  In this solution a choice was made to run a Linux (Debian/Ubuntu) version of Telegraf to support C2C networking.  Docker images of Telegraf are available on [Docker Hub](https://hub.docker.com/_/telegraf).  A choice was made to deploy a Telegraf executable over a docker based image to avoid complications of NFS volume mounts*
 
-1. From your Linux VM, download the latest telegraph release [(currently 1.14.3)](https://dl.influxdata.com/telegraf/releases/telegraf-1.14.3-static_linux_amd64.tar.gz).
+1. Download the latest telegraph release [(currently 1.14.3)](https://dl.influxdata.com/telegraf/releases/telegraf-1.14.3-static_linux_amd64.tar.gz).
 
    ```bash
    wget https://dl.influxdata.com/telegraf/releases/telegraf-1.14.3-static_linux_amd64.tar.gz
