@@ -41,7 +41,7 @@ This repository outlines the steps in enabling [Steeltoe](https://steeltoe.io/) 
    2. Use the app guid retrieved in the prior step to configure the ports for the Wavefront proxy.
 
       ```powershell
-      cf curl /v2/apps/{***YOUR_APP_GUID***} -X PUT -d '{\"ports\": [2878, 9811]}'
+      cf curl /v2/apps/{***YOUR_APP_GUID***} -X PUT -d '{\"ports\": [2878, 9411]}'
       ```
 
 ## Steeltoe Application
