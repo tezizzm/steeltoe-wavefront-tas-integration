@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Steeltoe.Management.ExporterCore" Version="2.4.3" />
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.4.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Version="2.4.3" />
     <PackageReference Include="Steeltoe.Management.TracingCore" Version="2.4.3" />
   </ItemGroup>
